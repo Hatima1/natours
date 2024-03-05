@@ -2,6 +2,24 @@ const fs = require('fs');
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
+exports.checkBody = (req, res, next) => {
+  if (!req.body.name || !req.body.price) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'no name or price ',
+    });
+  }
+  next();
+};
+exports.checkId = (req, res, next, val) => {
+  if (req.params.id * 1 > tours.length) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'invalid id',
+    });
+  }
+  next();
+};
 exports.getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
@@ -40,5 +58,12 @@ exports.getTour = (req, res) => {
     status: 'success',
 
     data: { tour: tour },
+  });
+};
+
+exports.deleteTour = (req, res) => {
+  res.status(200).json({
+    status: 'success delete',
+    value: null,
   });
 };
