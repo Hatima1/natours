@@ -6,7 +6,7 @@ const userRouter = require('./routes/userRoutes.js');
 const app = express();
 app.use(express.json());
 app.use((req, res, next) => {
-  console.log('test');
+//   console.log('test');
 
   next();
 });
