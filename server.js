@@ -43,7 +43,7 @@ testTour
     console.log(doc);
   })
   .catch((err) => {
-    console.log('err rrrrrrrrrrrrrrr', err);
+    console.log('errorr', err);
   });
 
 const port = 3000;
