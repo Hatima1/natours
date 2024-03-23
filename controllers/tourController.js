@@ -31,9 +31,31 @@ exports.getAllTours = async (req, res) => {
 
     //sorting
     if (req.query.sort) {
-      const sort = req.query.sort.split(',').join(' ');
-      query = query.sort(sort);
+      const sortBY = req.query.sort.split(',').join(' ');
+      query = query.sort(sortBY);
+    } else {
+      query = query.sort('-createdAt');
     }
+
+    //fields
+    if (req.query.fields) {
+      const fields = req.query.fields.split(',').join(' ');
+      query = query.select(fields);
+    } else {
+      query = query.select('-__v');
+    }
+
+    //pagination
+
+    const page = +req.query.page || 3;
+    const limit = +req.query.limit || 5;
+    const skip = (page - 1) * limit;
+    if (req.query.page) {
+      const numTour = await Tour.countDocuments();
+      console.log(skip, numTour);
+      if (skip >= numTour) throw new Error('man');
+    }
+    query = query.skip(skip).limit(limit);
 
     // excute;
     const tours = await query;
