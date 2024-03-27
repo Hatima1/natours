@@ -14,6 +14,13 @@ exports.checkBody = (req, res, next) => {
 };
 // );
 
+exports.aliasTopTours = async (req, res, next) => {
+  req.query.limit = '5';
+  req.query.sort = '-price';
+  req.query.fields = 'name';
+  next();
+};
+
 exports.getAllTours = async (req, res) => {
   try {
     const queryObj = { ...req.query };
@@ -47,7 +54,7 @@ exports.getAllTours = async (req, res) => {
 
     //pagination
 
-    const page = +req.query.page || 3;
+    const page = +req.query.page || 1;
     const limit = +req.query.limit || 5;
     const skip = (page - 1) * limit;
     if (req.query.page) {
