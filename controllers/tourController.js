@@ -24,7 +24,6 @@ exports.aliasTopTours = async (req, res, next) => {
 
 exports.getAllTours = async (req, res) => {
   try {
-    console.log(new APIFeatures(Tour.find(), req.query).filter());
     const features = new APIFeatures(Tour.find(), req.query)
       .filter()
       .sorting()
@@ -86,7 +85,7 @@ exports.updateTour = async (req, res) => {
 exports.createTour = async (req, res) => {
   try {
     const newTour = await Tour.create(req.body);
-    console.log(newTour);
+
     res.status(201).json({
       status: 'success',
       data: {
