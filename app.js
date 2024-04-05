@@ -22,4 +22,11 @@ app.use((req, res, next) => {
 app.use('/api/v2/tours', tourRouter);
 app.use('/api/v2/users', userRouter);
 
+app.all('*', (req, res, next) => {
+  res.status(400).json({
+    status: 'fail',
+    message: `cant find ${req.originalUrl} try again`,
+  });
+});
+
 module.exports = app;
