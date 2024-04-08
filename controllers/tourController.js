@@ -1,6 +1,7 @@
 const { json } = require('express');
 const Tour = require('./../models/tourModel');
 const APIFeatures = require('./../utils/apiFeatures');
+const acatch = require('./../utils/catchAsync');
 
 // const tours = JSON.parse(
 //   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
@@ -47,22 +48,15 @@ exports.getAllTours = async (req, res) => {
   }
 };
 
-exports.getTour = async (req, res) => {
+exports.getTour = acatch(async (req, res, next) => {
   console.log(req.params.id);
 
-  try {
-    const tour = await Tour.findById(req.params.id);
-    res.status(200).json({
-      status: 'success',
-      data: { tour: tour },
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: 'somesing wrong',
-    });
-  }
-};
+  const tour = await Tour.findById(req.params.id);
+  res.status(200).json({
+    status: 'success',
+    data: { tour: tour },
+  });
+});
 exports.updateTour = async (req, res) => {
   console.log(req.params.id);
 
