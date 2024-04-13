@@ -1,7 +1,8 @@
 const { json } = require('express');
 const Tour = require('./../models/tourModel');
 const APIFeatures = require('./../utils/apiFeatures');
-const acatch = require('./../utils/catchAsync');
+const catchAsyncs = require('./../utils/catchAsync');
+const AppError = require('../utils/appError');
 
 // const tours = JSON.parse(
 //   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
@@ -48,67 +49,55 @@ exports.getAllTours = async (req, res) => {
   }
 };
 
-exports.getTour = acatch(async (req, res, next) => {
+exports.getTour = catchAsyncs(async (req, res, next) => {
   console.log(req.params.id);
 
   const tour = await Tour.findById(req.params.id);
+  if (!tour) {
+    return next(new AppError('no tour found', 404));
+  }
   res.status(200).json({
     status: 'success',
     data: { tour: tour },
   });
 });
-exports.updateTour = async (req, res) => {
+exports.updateTour = catchAsyncs(async (req, res) => {
   console.log(req.params.id);
 
-  try {
-    const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-    res.status(200).json({
-      status: 'success',
-      data: { tour },
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: 'somesing wrong',
-    });
+  const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  if (!tour) {
+    return next(new AppError('no tour found', 404));
   }
-};
-exports.createTour = async (req, res) => {
-  try {
-    const newTour = await Tour.create(req.body);
+  res.status(200).json({
+    status: 'success',
+    data: { tour },
+  });
+});
+exports.createTour = catchAsyncs(async (req, res) => {
+  const newTour = await Tour.create(req.body);
 
-    res.status(201).json({
-      status: 'success',
-      data: {
-        tour: newTour,
-      },
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err,
-    });
+  res.status(201).json({
+    status: 'success',
+    data: {
+      tour: newTour,
+    },
+  });
+});
+
+exports.deleteTour = catchAsyncs(async (req, res) => {
+  const tour = await Tour.findByIdAndDelete(req.params.id);
+  if (!tour) {
+    return next(new AppError('no tour found', 404));
   }
-};
 
-exports.deleteTour = async (req, res) => {
-  try {
-    await Tour.findByIdAndDelete(req.params.id);
-
-    res.status(204).json({
-      status: 'success delete',
-      value: null,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: 'ivalid ',
-    });
-  }
-};
+  res.status(204).json({
+    status: 'success delete',
+    value: null,
+  });
+});
 
 exports.getTourStats = async (req, res) => {
   try {
