@@ -105,8 +105,8 @@ tourSchema.pre(/^find/, function (next) {
   next();
 });
 tourSchema.post(/^find/, function (docs, next) {
-  console.log('test');
-  console.log(` its call ${Date.now() - this.start}`);
+  // console.log('test');
+  // console.log(` its call ${Date.now() - this.start}`);
 
   next();
 });
