@@ -2,6 +2,9 @@
 // xdYmSFPWDSjOPgWX;
 
 const rateLimit = require('express-rate-limit');
+const xss = require('xss-clean');
+const hpp = require('hpp');
+const mongoSanitize = require('express-mongo-sanitize');
 const express = require('express');
 const helmet = require('helmet');
 const tourRouter = require('./routes/tourRoutes.js');
@@ -23,9 +26,29 @@ app.use('/api', limiter);
 
 //read data from body
 app.use(express.json({ limit: '10kb' }));
+
+//data sanitizantion against no sql query injection
+app.use(express.json(mongoSanitize()));
+
+//data sanitizantion aganist xss
+app.use(express.json(xss()));
+
+//prevent parameter pollution
+app.use(
+  hpp({
+    whitelist: [
+      'price',
+      'ratingsQuantity',
+      'ratingsAverage',
+      'maxGroupSize',
+      'duration',
+      'difficulty',
+    ],
+  })
+);
+
 app.use((req, res, next) => {
   //   console.log('test');
-
   next();
 });
 
