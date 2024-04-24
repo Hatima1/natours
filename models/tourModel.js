@@ -34,7 +34,7 @@ const tourSchema = new mongoose.Schema(
       type: Number,
       default: 4.5,
       min: [1, 'all rating must be more than  1 '],
-      min: [5, 'all rating must be more than  5 '],
+      max: [5, 'all rating must be more than  5 '],
     },
     ratingsQuantity: {
       type: Number,
@@ -65,7 +65,7 @@ const tourSchema = new mongoose.Schema(
     },
     imageCover: {
       type: String,
-      required: [true, 'A tour must have a cover image'],
+      // required: [true, 'A tour must have a cover '],
     },
     images: [String],
     createdAt: {
@@ -78,6 +78,37 @@ const tourSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    satatLocation: {
+      type: {
+        type: String,
+        default: 'point',
+        enmu: ['point'],
+      },
+      description: String,
+      coordinates: [Number],
+
+      address: String,
+    },
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'point',
+          enmu: ['point'],
+        },
+        description: String,
+        coordinates: [Number],
+
+        address: String,
+        day: Number,
+      },
+    ],
+    guides: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
@@ -104,6 +135,13 @@ tourSchema.pre(/^find/, function (next) {
   this.start = Date.now();
   next();
 });
+tourSchema.pre(/^find/, function (next) {
+  this.populate({ path: 'guides', select: '-PasswordChangeAt -__v' });
+
+  next();
+});
+
+///post
 tourSchema.post(/^find/, function (docs, next) {
   // console.log('test');
   // console.log(` its call ${Date.now() - this.start}`);

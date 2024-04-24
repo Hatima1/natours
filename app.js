@@ -9,6 +9,7 @@ const express = require('express');
 const helmet = require('helmet');
 const tourRouter = require('./routes/tourRoutes.js');
 const userRouter = require('./routes/userRoutes.js');
+const reviewRouter = require('./routes/reviewRoutes.js');
 const AppError = require('./utils/appError.js');
 const globakErrorHandler = require('./controllers/errorController.js');
 
@@ -60,6 +61,7 @@ app.use((req, res, next) => {
 
 app.use('/api/v2/tours', tourRouter);
 app.use('/api/v2/users', userRouter);
+app.use('/api/v2/reviews', reviewRouter);
 
 app.all('*', (req, res, next) => {
   // res.status(400).json({
