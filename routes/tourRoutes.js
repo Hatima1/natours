@@ -2,11 +2,28 @@ const express = require('express');
 
 const tourController = require('./../controllers/tourController');
 const authController = require('./../controllers/authController');
+const reviewRouter = require('./../routes/reviewRoutes');
 
 const router = express.Router();
 // router.param('id', tourController.checkId);
 
-router.route('/monthly-plan/:year').get(tourController.getMonthlyplan);
+///tour/3ws23edas/review
+// router
+//   .route('/:tourId/review')
+//   .post(
+//     authController.protect,
+//     authController.restrictTo('user'),
+//     reviwController.createReview
+//   );
+
+router.use('/:tourId/reviews', reviewRouter);
+router
+  .route('/monthly-plan/:year')
+  .get(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide', 'guide'),
+    tourController.getMonthlyplan
+  );
 router
   .route('/top-5-cheap')
   .get(tourController.aliasTopTours, tourController.getAllTours);
@@ -15,8 +32,13 @@ router.route('/tour-stats').get(tourController.getTourStats);
 
 router
   .route('/')
-  .get(authController.protect, tourController.getAllTours)
-  .post(tourController.checkBody, tourController.createTour);
+  .get(tourController.getAllTours)
+  .post(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.createTour
+  );
+// .post(tourController.checkBody, tourController.createTour);
 
 router
   .route('/:id')
@@ -26,6 +48,10 @@ router
     authController.restrictTo('admin', 'lead-guide'),
     tourController.deleteTour
   )
-  .patch(tourController.updateTour);
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.updateTour
+  );
 
 module.exports = router;
