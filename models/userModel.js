@@ -47,17 +47,17 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// userSchema.pre('save', async function (next) {
-//   if (!this.isModified('password')) return next();
-//   this.password = await bcrypt.hash(this.password, 10);
-//   this.passwordConfirm = undefined;
-//   next();
-// });
-// userSchema.pre('save', function (next) {
-//   if (!this.isModified('password') || this.isNew) return next();
-//   this.PasswordChangeAt = Date.now() - 1000;
-//   next();
-// });
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  this.passwordConfirm = undefined;
+  next();
+});
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+  this.PasswordChangeAt = Date.now() - 1000;
+  next();
+});
 
 //quary middlwear
 userSchema.pre(/^find/, function (next) {
