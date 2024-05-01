@@ -2,6 +2,7 @@
 // xdYmSFPWDSjOPgWX;
 
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -14,6 +15,13 @@ const AppError = require('./utils/appError.js');
 const globakErrorHandler = require('./controllers/errorController.js');
 
 const app = express();
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+// 1 / global middlewares;
+//server static
+app.use(express.static(path.join(__dirname, 'public')));
+
 //set security http header
 app.use(helmet());
 
@@ -53,6 +61,10 @@ app.use((req, res, next) => {
   next();
 });
 
+//routes
+app.get('/', (req, res) => {
+  res.status(200).render('base');
+});
 // app.get('/api/v2/tours', getAllTours);
 
 // app.post('/api/v2/tours', createTour);

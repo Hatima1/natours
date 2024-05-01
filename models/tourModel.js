@@ -25,17 +25,17 @@ const tourSchema = new mongoose.Schema(
     difficulty: {
       type: String,
       required: [true, 'A tour must have a difficulty'],
-      // enum: {
-      //   values: ['easy,difficult,medium'],
-      //   message: 'dificult must be either:east,medium',
-      // },
+      enum: {
+        values: ['easy', 'medium', 'difficult'],
+        message: 'Difficulty is either: easy, medium, difficult',
+      },
     },
     ratingsAverage: {
       type: Number,
       default: 4.5,
       min: [1, 'all rating must be more than  1 '],
       max: [5, 'all rating must be more than  5 '],
-      // set: (val) => Math.rounded(val * 10) / 10,
+      set: (val) => Math.round(val * 10) / 10,
     },
     ratingsQuantity: {
       type: Number,
@@ -79,16 +79,16 @@ const tourSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    satatLocation: {
+    startLocation: {
+      // GeoJSON
       type: {
         type: String,
-        default: 'point',
-        enmu: ['point'],
+        default: 'Point',
+        enum: ['Point'],
       },
-      description: String,
       coordinates: [Number],
-
       address: String,
+      description: String,
     },
     locations: [
       {
@@ -117,8 +117,11 @@ const tourSchema = new mongoose.Schema(
   }
 );
 
-tourSchema.index({ price: 1, ratingsAverage: 1 });
 tourSchema.index({ slug: 1 });
+tourSchema.index({ startLocation: '2dsphere' });
+
+// tourSchema.index({ price: 1, ratingsAverage: 1 });
+// tourSchema.index({ slug: 1 });
 tourSchema.virtual('durationWeek').get(function () {
   return this.duration / 7;
 });
@@ -160,11 +163,11 @@ tourSchema.post(/^find/, function (docs, next) {
 });
 
 //aggregate middleware
-tourSchema.pre('aggregate', function (next) {
-  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+// tourSchema.pre('aggregate', function (next) {
+//   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
 
-  next();
-});
+//   next();
+// });
 
 const Tour = mongoose.model('Tour', tourSchema);
 module.exports = Tour;
