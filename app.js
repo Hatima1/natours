@@ -11,6 +11,7 @@ const helmet = require('helmet');
 const tourRouter = require('./routes/tourRoutes.js');
 const userRouter = require('./routes/userRoutes.js');
 const reviewRouter = require('./routes/reviewRoutes.js');
+const viewrouter = require('./routes/viewRoutes.js');
 const AppError = require('./utils/appError.js');
 const globakErrorHandler = require('./controllers/errorController.js');
 
@@ -62,15 +63,32 @@ app.use((req, res, next) => {
 });
 
 //routes
-app.get('/', (req, res) => {
-  res.status(200).render('base');
-});
+// app.get('/', (req, res) => {
+//   res.status(200).render('base', {
+//     x: 'forst tiker',
+//     user: 'hatim',
+//   });
+// });
+// app.get('/overview', (req, res) => {
+//   res.status(200).render('base', {
+//     x: 'man ',
+//     user: 'hatim',
+//   });
+// });
+// app.get('/tour', (req, res) => {
+//   res.status(200).render('base', {
+//     x: 'test',
+//     user: 'hatim',
+//   });
+// });
+
 // app.get('/api/v2/tours', getAllTours);
 
 // app.post('/api/v2/tours', createTour);
 
 // app.get('/api/v2/tours/:id', getTour);
 
+app.use('/', viewrouter);
 app.use('/api/v2/tours', tourRouter);
 app.use('/api/v2/users', userRouter);
 app.use('/api/v2/reviews', reviewRouter);
