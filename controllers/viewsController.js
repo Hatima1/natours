@@ -35,6 +35,12 @@ exports.getTour = catchAsync(async (req, res, next) => {
     tour,
   });
 });
+exports.getLoginForm = (req, res) => {
+  res.status(200).render('login', {
+    title: 'Log into your account',
+  });
+};
+
 // exports.getOverview = catchAsync(async (req, res, next) => {
 //   // 1) Get tour data from collection
 //   const tours = await Tour.find();
@@ -46,12 +52,6 @@ exports.getTour = catchAsync(async (req, res, next) => {
 //     tours
 //   });
 // });
-
-// exports.getLoginForm = (req, res) => {
-//   res.status(200).render('login', {
-//     title: 'Log into your account'
-//   });
-// };
 
 // exports.getAccount = (req, res) => {
 //   res.status(200).render('account', {
