@@ -1,21 +1,21 @@
 const Tour = require('../models/tourModel');
 // const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
-// const AppError = require('../utils/appError');
+const AppError = require('../utils/appError');
 
 exports.getOverview = catchAsync(async (req, res, next) => {
   const tours = await Tour.find();
   res.status(200).render('overview', {
     tours,
-    user: 'hatim',
+    // user: 'hatim',
   });
 });
-exports.getTour = (req, res) => {
-  res.status(200).render('tour', {
-    tour: 'ds',
-    user: 'd',
-  });
-};
+// exports.getTour = (req, res) => {
+//   res.status(200).render('tour', {
+//     tour: 'ds',
+//     user: 'd',
+//   });
+// };
 
 exports.getTour = catchAsync(async (req, res, next) => {
   // 1) Get the data, for the requested tour (including reviews and guides)
@@ -53,27 +53,27 @@ exports.getLoginForm = (req, res) => {
 //   });
 // });
 
-// exports.getAccount = (req, res) => {
-//   res.status(200).render('account', {
-//     title: 'Your account'
-//   });
-// };
+exports.getAccount = (req, res) => {
+  res.status(200).render('account', {
+    title: 'Your account',
+  });
+};
 
-// exports.updateUserData = catchAsync(async (req, res, next) => {
-//   const updatedUser = await User.findByIdAndUpdate(
-//     req.user.id,
-//     {
-//       name: req.body.name,
-//       email: req.body.email
-//     },
-//     {
-//       new: true,
-//       runValidators: true
-//     }
-//   );
+exports.updateUserData = catchAsync(async (req, res, next) => {
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      name: req.body.name,
+      email: req.body.email
+    },
+    {
+      new: true,
+      runValidators: true
+    }
+  );
 
-//   res.status(200).render('account', {
-//     title: 'Your account',
-//     user: updatedUser
-//   });
-// });
+  res.status(200).render('account', {
+    title: 'Your account',
+    user: updatedUser
+  });
+});
