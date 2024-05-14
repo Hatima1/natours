@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     minlength: 8,
     select: false,
   },
-  photo: String,
+  photo: { type: String, default: 'default.jpg' },
   passwordConfirm: {
     type: String,
     require: [true, 'must have '],
