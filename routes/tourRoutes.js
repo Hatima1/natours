@@ -36,14 +36,12 @@ router
   .route('/tours-within/distance/:latlng/unit/:unit')
   .get(tourController.getDistances);
 
-router
-  .route('/')
-  .get(tourController.getAllTours)
-  .post(
-    authController.protect,
-    authController.restrictTo('admin', 'lead-guide'),
-    tourController.createTour
-  );
+router.route('/').get(tourController.getAllTours).post(
+  authController.protect,
+  authController.restrictTo('admin', 'lead-guide'),
+
+  tourController.createTour
+);
 // .post(tourController.checkBody, tourController.createTour);
 
 router
@@ -52,11 +50,14 @@ router
   .delete(
     authController.protect,
     authController.restrictTo('admin', 'lead-guide'),
+
     tourController.deleteTour
   )
   .patch(
     authController.protect,
     authController.restrictTo('admin', 'lead-guide'),
+    tourController.uploadTourImages,
+    tourController.resizeTourImages,
     tourController.updateTour
   );
 
