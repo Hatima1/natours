@@ -9,6 +9,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const express = require('express');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
+const bookingRouter = require('./routes/bookingRoutes.js');
 const tourRouter = require('./routes/tourRoutes.js');
 const userRouter = require('./routes/userRoutes.js');
 const reviewRouter = require('./routes/reviewRoutes.js');
@@ -94,6 +95,7 @@ app.use('/', viewrouter);
 app.use('/api/v2/tours', tourRouter);
 app.use('/api/v2/users', userRouter);
 app.use('/api/v2/reviews', reviewRouter);
+app.use('/api/v2/bookings', bookingRouter);
 
 app.all('*', (req, res, next) => {
   // res.status(400).json({
