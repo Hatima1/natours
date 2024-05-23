@@ -28,6 +28,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 //set security http header
 app.use(helmet());
 
+// app.use((req, res, next) => {
+//   res.setHeader(
+//     'Content-Security-Policy',
+//     "script-src 'self' 'https://js.stripe.com';"
+//   );
+//   next();
+// });
+
 //limit requests from api
 const limiter = rateLimit({
   max: 100,

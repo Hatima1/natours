@@ -1,4 +1,4 @@
-console.log('lol');
+console.log('lsadol');
 
 // /* eslint-disable */
 import '@babel/polyfill';
@@ -62,10 +62,11 @@ if (userPasswordForm)
     document.getElementById('password').value = '';
     document.getElementById('password-confirm').value = '';
   });
-
+console.log('asddas');
 if (bookBtn)
   bookBtn.addEventListener('click', (e) => {
     e.target.textContent = 'Processing...';
+    console.log(e.target.dataset);
     const { tourId } = e.target.dataset;
     bookTour(tourId);
   });
