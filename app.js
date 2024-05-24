@@ -72,7 +72,13 @@ app.use((req, res, next) => {
   //   console.log('test');
   next();
 });
-
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    "script-src 'self' https://js.stripe.com"
+  );
+  next();
+});
 //routes
 // app.get('/', (req, res) => {
 //   res.status(200).render('base', {

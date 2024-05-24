@@ -1,4 +1,4 @@
-console.log('lsadol');
+console.log('lsasdasdadol');
 
 // /* eslint-disable */
 import '@babel/polyfill';
@@ -64,9 +64,19 @@ if (userPasswordForm)
   });
 console.log('asddas');
 if (bookBtn)
-  bookBtn.addEventListener('click', (e) => {
-    e.target.textContent = 'Processing...';
-    console.log(e.target.dataset);
-    const { tourId } = e.target.dataset;
-    bookTour(tourId);
+  document.addEventListener('DOMContentLoaded', () => {
+    // Use your actual publishable key here
+
+    bookBtn.addEventListener('click', (e) => {
+      e.target.textContent = 'Processing...';
+      console.log(e.target.dataset);
+      const { tourId } = e.target.dataset;
+      bookTour(tourId);
+    });
   });
+// bookBtn.addEventListener('click', (e) => {
+//   e.target.textContent = 'Processing...';
+//   console.log(e.target.dataset);
+//   const { tourId } = e.target.dataset;
+//   bookTour(tourId);
+// });
