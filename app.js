@@ -14,6 +14,7 @@ const tourRouter = require('./routes/tourRoutes.js');
 const userRouter = require('./routes/userRoutes.js');
 const reviewRouter = require('./routes/reviewRoutes.js');
 const viewrouter = require('./routes/viewRoutes.js');
+const compression = require('compression');
 const AppError = require('./utils/appError.js');
 const globakErrorHandler = require('./controllers/errorController.js');
 
@@ -67,7 +68,7 @@ app.use(
     ],
   })
 );
-
+app.use(compression());
 app.use((req, res, next) => {
   //   console.log('test');
   next();

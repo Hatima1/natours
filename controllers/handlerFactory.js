@@ -17,7 +17,7 @@ exports.deleteOne = (modle) => {
 };
 exports.updateOne = (modle) => {
   return catchAsync(async (req, res, next) => {
-    console.log(req.params.id);
+    // console.log(req.params.id);
 
     const doc = await modle.findByIdAndUpdate(req.params.id, req.body, {
       new: true,

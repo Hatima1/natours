@@ -1,4 +1,4 @@
-console.log('lsasdasdadol');
+// console.log('lsasdasdadol');
 
 // /* eslint-disable */
 import '@babel/polyfill';
@@ -51,7 +51,7 @@ if (userPasswordForm)
     const passwordCurrent = document.getElementById('password-current').value;
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('password-confirm').value;
-    console.log({ passwordCurrent, password, passwordConfirm });
+    // console.log({ passwordCurrent, password, passwordConfirm });
     await updateSettings(
       { passwordCurrent, password, passwordConfirm },
       'password'
@@ -62,14 +62,14 @@ if (userPasswordForm)
     document.getElementById('password').value = '';
     document.getElementById('password-confirm').value = '';
   });
-console.log('asddas');
+// console.log('asddas');
 if (bookBtn)
   document.addEventListener('DOMContentLoaded', () => {
     // Use your actual publishable key here
 
     bookBtn.addEventListener('click', (e) => {
       e.target.textContent = 'Processing...';
-      console.log(e.target.dataset);
+      // console.log(e.target.dataset);
       const { tourId } = e.target.dataset;
       bookTour(tourId);
     });

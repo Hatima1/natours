@@ -53,7 +53,7 @@ exports.singup = catchAsyncs(async (req, res, next) => {
   //   });
   // const token = signToken(newUser._id);
   const url = `${req.protocol}://${req.get('host')}/me`;
-  console.log(url);
+  // console.log(url);
   await new Email(newUser, url).sendWelcome();
   createSendToken(newUser, 201, res);
 
@@ -142,7 +142,7 @@ exports.isLoggedIn = async (req, res, next) => {
       // if (currentUser.changedPasswordAfter(decoded.iat)) {
       //   return next();
       // }
-      console.log(currentUser);
+      // console.log(currentUser);
 
       // THERE IS A LOGGED IN USER
       console.log('end');
@@ -216,7 +216,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     passwordResetToken: hashToken,
     passwordResetExpires: { $gt: Date.now() },
   });
-  console.log(hashToken, user);
+  // console.log(hashToken, user);
   if (!user) {
     return next(new AppError('tokan is ivalid or expired'));
   }

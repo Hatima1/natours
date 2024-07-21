@@ -30,7 +30,7 @@ const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`, 'utf-8'));
 // IMPORT DATA INTO DB
 const importData = async () => {
   try {
-    console.log(tours);
+    // console.log(tours);
     await Tour.create(tours);
     await User.create(users, { validateBeforeSave: false });
     await Review.create(reviews);
@@ -59,4 +59,4 @@ if (process.argv[2] === '--import') {
 } else if (process.argv[2] === '--delete') {
   deleteData();
 }
-console.log('test');
+// console.log('test');
