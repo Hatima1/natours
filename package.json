@@ -48,6 +48,6 @@
     "@img/sharp-win32-x64": "^0.33.3"
   },
   "engines": {
-    "node": "^10"
+    "node": "20.x"
   }
 }
